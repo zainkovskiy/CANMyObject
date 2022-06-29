@@ -162,7 +162,7 @@ export function TableList(props) {
                   }} value='Эксклюзив'>Эксклюзив</MenuItem>
                   <MenuItem sx={{
                     fontSize: 12
-                  }} value='Реламный'>Реламный</MenuItem>
+                  }} value='Рекламный'>Рекламный</MenuItem>
                   <MenuItem sx={{
                     fontSize: 12
                   }} value={null}>Без договора</MenuItem>
@@ -208,7 +208,16 @@ export function TableList(props) {
             filterList.map((row, idx) =>
               <TableRow key={idx}>
                 <TableCell style={cell}>{row.assigned_by.fullName}</TableCell>
-                <TableCell style={cell}>{row.typeName}, {row.viewedAddress}</TableCell>
+                <TableCell style={cell}>
+                  <span
+                    className='link-bitrix'
+                    onClick={() => {
+                      BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/cardObject/?login=yes&source=1c&reqNumber=${row.reqNumber}`, { animationDuration: 300, width: 980, })
+                    }}
+                  >
+                    {row.typeName}, {row.viewedAddress}
+                  </span>
+                </TableCell>
                 <TableCell style={cell}>{row.contract.type ? row.contract.type : 'Нет'}</TableCell>
                 <TableCell style={cell}>{row.viewedArea}</TableCell>
                 <TableCell style={cell}>
@@ -232,12 +241,24 @@ export function TableList(props) {
                 <TableCell style={{ fontSize: 10 }}>
                   {
                     row.advStatus === 'К размещению' ?
-                      <div className='status' style={{ backgroundColor: '#BBED21' }}>
-                        <Approved />
-                      </div> :
-                      <div className='status' style={{ backgroundColor: '#ED2121' }}>
-                        <Denied />
-                      </div>
+                      <Tooltip
+                        key={idx}
+                        title={row.advTooltip}
+                        placement="top"
+                        arrow>
+                        <div className='status' style={{ backgroundColor: '#BBED21' }}>
+                          <Approved />
+                        </div>
+                      </Tooltip> :
+                      <Tooltip
+                        key={idx}
+                        title={row.advTooltip}
+                        placement="top"
+                        arrow>
+                        <div className='status' style={{ backgroundColor: '#ED2121' }}>
+                          <Denied />
+                        </div>
+                      </Tooltip>
                   }
                 </TableCell>
                 <TableCell style={{ fontSize: 10 }}>
@@ -245,12 +266,18 @@ export function TableList(props) {
                     {
                       row?.platformStats.length > 0 &&
                       row.platformStats.map((platform, idx) =>
-                        <a
-                          target={'_blank'}
-                          href={platform.url}
+                        <Tooltip
                           key={idx}
-                          className={`platform ${platform.status}`}
-                        >{platform.name}</a>
+                          title={platform.tooltip}
+                          placement="top"
+                          arrow>
+                          <a
+                            target={'_blank'}
+                            href={platform.url}
+                            key={idx}
+                            className={`platform ${platform.status}`}
+                          >{platform.name}</a>
+                        </Tooltip>
                       )
                     }
                   </div>
@@ -283,6 +310,6 @@ export function TableList(props) {
           }
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer >
   )
 } 

@@ -9,11 +9,11 @@ import Select from '@mui/material/Select';
 import './Header.scss';
 
 export function Header(props) {
-  const { officeList, currentOfficeId, rights } = props;
-  const [ currentOffice, setCurrentOffice ] = useState('');
+  const { officeList, currentOfficeId, rights, getData } = props;
+  const [currentOffice, setCurrentOffice] = useState('');
 
   useEffect(() => {
-      setCurrentOffice(officeList.find(office => office.id === currentOfficeId))
+    setCurrentOffice(officeList.find(office => office.id === currentOfficeId))
   }, [currentOfficeId])
 
   return (<div className='header'>
@@ -30,7 +30,7 @@ export function Header(props) {
           name={'office'}
           size='small'
           onChange={event => { setCurrentOffice(event.target.value) }}
-          disabled={ rights !== 'chief' }
+          disabled={rights !== 'chief'}
         >
           {
             officeList.map(office =>
@@ -41,6 +41,12 @@ export function Header(props) {
       </FormControl>
       <Button
         variant="contained"
+        onClick={() => getData({
+          "action": "get",
+          "userId": "2198",
+          // "userId": userId,
+          viewedOfficeId: currentOffice.id
+        })}
       >
         Сформировать
       </Button>
