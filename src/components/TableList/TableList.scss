@@ -1,0 +1,60 @@
+.status {
+  padding: 4px;
+  border-radius: 20px;
+  display: flex;
+  width: min-content;
+  margin: 0 auto;
+}
+
+.platforms {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.platform {
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+  padding: 4px;
+  cursor: pointer;
+  font-family: 'Montserrat';
+  letter-spacing: 0.8px;
+  text-decoration: none;
+  user-select: none;
+  transition: filter .3s;
+  &:hover {
+    filter: brightness(1.1);
+  }
+
+  &:active {
+    filter: brightness(0.9);
+  }
+  &__show {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: transform .3s;
+    &:hover{
+      transform: scale(1.1);
+    }
+    &:active{
+      transform: scale(0.9);
+    }
+  }
+}
+
+.approved {
+  background-color: #BBED21;
+}
+
+.denied {
+  background-color: #d5d5d5;
+  pointer-events: none;
+}
+
+.pending {
+  color: #fff;
+  pointer-events: none;
+  background-color: #f75252;
+}
