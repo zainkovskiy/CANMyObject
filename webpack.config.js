@@ -13,7 +13,7 @@ module.exports = {
     alias: {
       components: path.resolve(__dirname, 'src', 'components'),
       svg: path.resolve(__dirname, 'src', 'assets', 'svg'),
-      images: path.resolve(__dirname, 'src', 'assets', 'images'),
+      assets: path.resolve(__dirname, 'src', 'assets'),
     }
   },
   devtool: 'eval-cheap-source-map',

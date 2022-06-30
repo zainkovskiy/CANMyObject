@@ -9,10 +9,7 @@ export function Linear() {
         <LinearProgress />
         <p className="text"
           style={{
-            fontWeight: '400',
             textAlign: 'center',
-            fontFamily: 'Montserrat',
-            letterSpacing: '0.8px'
           }}
         >
           Идет загрузка...</p>
