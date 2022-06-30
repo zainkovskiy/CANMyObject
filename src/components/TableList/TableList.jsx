@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+
 import Arrow from 'svg/arrow.svg';
 import Approved from 'svg/approved.svg';
 import Denied from 'svg/denied.svg';
-import QuestionMark from 'svg/question-mark.svg';
 
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -36,9 +37,12 @@ const cellHeader = {
 }
 
 export function TableList(props) {
-  const { list, subordinated, rights } = props;
+  const { list, subordinated, getGraph } = props;
   const [filter, setFilter] = useState({});
   const [filterList, setFilterList] = useState(list ? list : []);
+  const [withoutContract, setWithoutContract] = useState(0);
+  const [exContract, setExContract] = useState(0);
+  const [adContract, setAdContract] = useState(0);
 
   useEffect(() => {
     let interimFilter = list;
@@ -48,7 +52,11 @@ export function TableList(props) {
           interimFilter = interimFilter.filter(item => item.type === filter[key])
         }
         if (key === 'contract') {
-          interimFilter = interimFilter.filter(item => item.contract.type === filter[key])
+          if (filter[key] === 'договор') {
+            interimFilter = interimFilter.filter(item => item.contract.type)
+          } else {
+            interimFilter = interimFilter.filter(item => item.contract.type === filter[key])
+          }
         }
         if (key === 'advStatus') {
           interimFilter = interimFilter.filter(item => item.advStatus === filter[key])
@@ -62,13 +70,44 @@ export function TableList(props) {
   }, [filter])
 
   useEffect(() => {
+    countContract();
+  }, [filterList])
+
+  useEffect(() => {
     setFilter({});
     setFilterList(list);
   }, [list])
 
+  const countContract = () => {
+    let ad = 0;
+    let without = 0;
+    let ex = 0;
+    for (let item of filterList) {
+      if (!item.contract.type) {
+        without++
+      }
+      if (item.contract.type === 'Эксклюзив') {
+        ex++
+      }
+      if (item.contract.type === 'Рекламный') {
+        ad++
+      }
+    }
+    setWithoutContract(without);
+    setExContract(ex);
+    setAdContract(ad);
+  }
+
   return (
     <TableContainer component={Paper} sx={{ maxHeight: 'calc(100vh - 84px - 2rem)' }}>
       <Table sx={{ minWidth: 650 }} size="small" stickyHeader >
+        <caption style={{ padding: '8px 16px' }}>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
+            <span>Без договора: {withoutContract}</span>
+            <span>Рекламных: {adContract}</span>
+            <span>Эксклюзивов: {exContract}</span>
+          </div>
+        </caption>
         <TableHead>
           <TableRow>
             <TableCell>
@@ -141,12 +180,12 @@ export function TableList(props) {
             </TableCell>
             <TableCell>
               <FormControl size="small" sx={{ minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">Тип догора</InputLabel>
+                <InputLabel id="demo-simple-select-label">Тип договора</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={filter?.contract ? filter?.contract : 'all'}
-                  label='Тип догора'
+                  label='Тип договора'
                   name={'contract'}
                   size='small'
                   sx={{
@@ -166,6 +205,9 @@ export function TableList(props) {
                   <MenuItem sx={{
                     fontSize: 12
                   }} value={null}>Без договора</MenuItem>
+                  <MenuItem sx={{
+                    fontSize: 12
+                  }} value={'договор'}>С договором</MenuItem>
                 </Select>
               </FormControl>
             </TableCell>
@@ -218,7 +260,30 @@ export function TableList(props) {
                     {row.typeName}, {row.viewedAddress}
                   </span>
                 </TableCell>
-                <TableCell style={cell}>{row.contract.type ? row.contract.type : 'Нет'}</TableCell>
+                <TableCell style={cell}>
+                  <Tooltip
+                    title={`${row?.contract?.contractText ? row.contract.contractText : 'Не рассмотренно'}
+                    ${row?.contract?.contractDate ? moment(row.contract.contractDate).format("DD-MM-YYYY") : ''}`}
+                    placement="top"
+                    arrow>
+                    <div style={{ width: 'min-content' }}>
+                      <span>
+                        {row?.contract?.typeName}
+                      </span>&nbsp;
+                      {
+                        row?.contract?.dealId &&
+                        (<span
+                          className='link-bitrix'
+                          onClick={() => {
+                            BX.SidePanel.Instance.open(`https://crm.centralnoe.ru/crm/deal/details/${row.contract.dealId}/`, { animationDuration: 300, width: 980, })
+                          }}
+                        >
+                          {row?.contract?.dealId}
+                        </span>)
+                      }
+                    </div>
+                  </Tooltip>
+                </TableCell>
                 <TableCell style={cell}>{row.viewedArea}</TableCell>
                 <TableCell style={cell}>
                   <Tooltip title={`Цена на старте ${row.priceStart} тыс. руб.`} placement="top" arrow>
@@ -292,7 +357,14 @@ export function TableList(props) {
                           title={`За предыдущий месяц ${platform.showsLast}`}
                           placement="top"
                           arrow>
-                          <span className='platform__show'>
+                          <span
+                            className='platform__show'
+                            onClick={() => getGraph({
+                              "action": "getGraph",
+                              "reqNumber": row.reqNumber,
+                              "platform": platform.name,
+                            })}
+                          >
                             {platform.shows}
                             <Arrow
                               height={16}

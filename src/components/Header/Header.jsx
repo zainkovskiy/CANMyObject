@@ -43,8 +43,8 @@ export function Header(props) {
         variant="contained"
         onClick={() => getData({
           "action": "get",
-          "userId": "2198",
-          // "userId": userId,
+          // "userId": "2198",
+          "userId": userId,
           viewedOfficeId: currentOffice.id
         })}
       >

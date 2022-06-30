@@ -23,6 +23,7 @@
   text-decoration: none;
   user-select: none;
   transition: filter .3s;
+  color: rgb(90, 90, 90);
   &:hover {
     filter: brightness(1.1);
   }
@@ -46,6 +47,7 @@
 }
 .link-bitrix{
   cursor: pointer;
+  color: rgb(7 134 243);
   &:hover{
     text-decoration: underline;
   }
