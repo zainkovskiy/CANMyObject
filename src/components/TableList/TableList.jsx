@@ -21,7 +21,7 @@ import { FormControlCustom } from 'components/FormControlCustom';
 import './TableList.scss';
 
 const cell = {
-  fontSize: 10,
+  fontSize: 12,
   fontFamily: 'Montserrat',
   letterSpacing: '0.8px',
   color: 'rgba(0, 0, 0, 1)',

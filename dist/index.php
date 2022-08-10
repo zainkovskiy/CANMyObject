@@ -27,7 +27,7 @@ $ActiveUserID = CUser::GetID();
     $APPLICATION->ShowHeadScripts();
   }
   
-  $APPLICATION->SetAdditionalCSS("/dev/MyObject/main.css");
+  $APPLICATION->SetAdditionalCSS("/myObject/main.css");
   ?>
   <script defer="defer" src="bundle.js?'.chr(rand(65,90)).chr(rand(65,90)).'='.rand(0,1000000).'"></script>
   <!-- <link href="main.css?s=<?= rand(0, 1000000) ?>" rel="stylesheet"> -->

@@ -16,4 +16,9 @@
     grid-gap: 1rem;
     grid-template-columns: 200px min-content;
   }
+  &__left{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 }
