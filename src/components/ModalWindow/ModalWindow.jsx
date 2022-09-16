@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Dialog from '@mui/material/Dialog';
 
 export function ModalWindow(props) {
@@ -7,11 +7,10 @@ export function ModalWindow(props) {
     <Dialog
       open={open}
       onClose={onClose}
-      fullWidth={true}
-      maxWidth={'lg'}
-      sx={{zIndex: 999}}
+      {...props}
+      sx={{ zIndex: 999 }}
     >
       {children}
     </Dialog>
-  )
+  );
 }
