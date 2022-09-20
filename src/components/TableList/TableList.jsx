@@ -79,13 +79,17 @@ export function TableList(props) {
         }
         if (key === 'date') {
           if (filter?.date?.after) {
-            interimFilter = interimFilter.filter((item) =>
-              moment(item.dirUpdated).isAfter(filter.date.after, 'day')
+            interimFilter = interimFilter.filter(
+              (item) =>
+                moment(item.dirUpdated).isAfter(filter.date.after, 'day') ||
+                !item?.dirUpdated
             );
           }
           if (filter?.date?.before) {
-            interimFilter = interimFilter.filter((item) =>
-              moment(item.dirUpdated).isBefore(filter.date.before, 'day')
+            interimFilter = interimFilter.filter(
+              (item) =>
+                moment(item.dirUpdated).isBefore(filter.date.before, 'day') ||
+                !item?.dirUpdated
             );
           }
         }
@@ -223,7 +227,20 @@ export function TableList(props) {
                   list={selectList.contract}
                 />
               </TableCell>
-              <TableCell sx={cellHeader}>Площади</TableCell>
+              <TableCell sx={cellHeader}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  Дата актуализации{' '}
+                  <IconButton
+                    size='small'
+                    onClick={handlerOpen}
+                  >
+                    <FilterListIcon
+                      style={{ cursor: 'pointer' }}
+                      fontSize='small'
+                    />
+                  </IconButton>
+                </span>
+              </TableCell>
               <TableCell sx={cellHeader}>Цена сейчас</TableCell>
               <TableCell>
                 <FormControlCustom
@@ -243,20 +260,7 @@ export function TableList(props) {
               </TableCell>
               <TableCell sx={cellHeader}>Агрегатор</TableCell>
               <TableCell sx={cellHeader}>Просмотры</TableCell>
-              <TableCell sx={cellHeader}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Дата актуализации{' '}
-                  <IconButton
-                    size='small'
-                    onClick={handlerOpen}
-                  >
-                    <FilterListIcon
-                      style={{ cursor: 'pointer' }}
-                      fontSize='small'
-                    />
-                  </IconButton>
-                </span>
-              </TableCell>
+              <TableCell sx={cellHeader}>Площади</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -310,7 +314,14 @@ export function TableList(props) {
                       </div>
                     </Tooltip>
                   </TableCell>
-                  <TableCell style={cell}>{row.viewedArea}</TableCell>
+                  <TableCell style={{ fontSize: 10 }}>
+                    <div className='platforms'>
+                      {row?.dirUpdated &&
+                        moment(row.dirUpdated)
+                          .locale('ru')
+                          .format('DD MMMM YYYY')}
+                    </div>
+                  </TableCell>
                   <TableCell style={cell}>
                     <Tooltip
                       title={`Цена на старте ${row.priceStart} тыс. руб.`}
@@ -436,14 +447,7 @@ export function TableList(props) {
                         ))}
                     </div>
                   </TableCell>
-                  <TableCell style={{ fontSize: 10 }}>
-                    <div className='platforms'>
-                      {row?.dirUpdated &&
-                        moment(row.dirUpdated)
-                          .locale('ru')
-                          .format('DD MMMM YYYY')}
-                    </div>
-                  </TableCell>
+                  <TableCell style={cell}>{row.viewedArea}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
