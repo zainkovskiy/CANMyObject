@@ -18,8 +18,8 @@ export function App() {
   useEffect(() => {
     getData({
       action: 'get',
-      userId: '2921',
-      // userId: userId,
+      // userId: '2921',
+      userId: userId,
     });
   }, []);
 
