@@ -56,6 +56,22 @@ export function App() {
       setOpen(true);
     }
   };
+  const getSubordinated = () => {
+    if (data?.subordinated){
+      return data.subordinated.sort(sortSubordinated)
+    }
+    return []
+  }
+
+  const sortSubordinated = (a,b) => {
+    if (a.name < b.name){
+      return -1
+    }
+    if (a.name > b.name){
+      return 1
+    }
+    return 0
+  }
 
   const onClose = () => {
     setOpen(!open);
@@ -77,7 +93,7 @@ export function App() {
               />
               <TableList
                 list={data?.objectsData ? data?.objectsData : []}
-                subordinated={data?.subordinated ? data?.subordinated : []}
+                subordinated={getSubordinated()}
                 getGraph={getGraph}
               />
               <ModalWindow
