@@ -266,7 +266,7 @@ export function TableList(props) {
           <TableBody>
             {filterList.length > 0 &&
               filterList.map((row, idx) => (
-                <TableRow key={idx}>
+                <TableRow key={idx} sx={{backgroundColor: row.isFake ? 'rgb(25 118 210 / 8%)' : ''}}>
                   <TableCell style={cell}>{row.assigned_by.fullName}</TableCell>
                   <TableCell style={cell}>
                     <span
