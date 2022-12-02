@@ -140,6 +140,32 @@ export function TableList(props) {
 
   return (
     <>
+      <div
+        style={{
+          display: 'flex',
+          gap: '1rem',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <span
+          className='text'
+          style={{ fontSize: 12 }}
+        >
+          Без договора: {withoutContract}
+        </span>
+        <span
+          className='text'
+          style={{ fontSize: 12 }}
+        >
+          Рекламных: {adContract}
+        </span>
+        <span
+          className='text'
+          style={{ fontSize: 12 }}
+        >
+          Эксклюзивов: {exContract}
+        </span>
+      </div>
       <TableContainer
         component={Paper}
         sx={{ maxHeight: 'calc(100vh - 84px - 2rem)' }}
@@ -149,7 +175,7 @@ export function TableList(props) {
           size='small'
           stickyHeader
         >
-          <caption style={{ padding: '8px 16px' }}>
+          {/* <caption style={{ padding: '8px 16px' }}>
             <div
               style={{
                 display: 'flex',
@@ -176,7 +202,7 @@ export function TableList(props) {
                 Эксклюзивов: {exContract}
               </span>
             </div>
-          </caption>
+          </caption> */}
           <TableHead>
             <TableRow>
               <TableCell>
@@ -266,7 +292,7 @@ export function TableList(props) {
           <TableBody>
             {filterList.length > 0 &&
               filterList.map((row, idx) => (
-                <TableRow key={idx} sx={{backgroundColor: row.isFake ? 'rgb(25 118 210 / 8%)' : ''}}>
+                <TableRow key={idx} sx={{ backgroundColor: row.isFake ? 'rgb(25 118 210 / 8%)' : '' }}>
                   <TableCell style={cell}>{row.assigned_by.fullName}</TableCell>
                   <TableCell style={cell}>
                     <span
@@ -283,16 +309,14 @@ export function TableList(props) {
                   </TableCell>
                   <TableCell style={cell}>
                     <Tooltip
-                      title={`${
-                        row?.contract?.contractText
+                      title={`${row?.contract?.contractText
                           ? row.contract.contractText
                           : 'Не рассмотренно'
-                      }
-                    ${
-                      row?.contract?.contractDate
-                        ? moment(row.contract.contractDate).format('DD-MM-YYYY')
-                        : ''
-                    }`}
+                        }
+                    ${row?.contract?.contractDate
+                          ? moment(row.contract.contractDate).format('DD-MM-YYYY')
+                          : ''
+                        }`}
                       placement='top'
                       arrow
                     >
@@ -342,12 +366,11 @@ export function TableList(props) {
                           style={
                             row.priceTrend !== 2
                               ? {
-                                  transform: `${
-                                    row.priceTrend === 0
-                                      ? 'rotate(-90deg)'
-                                      : 'rotate(180deg)'
+                                transform: `${row.priceTrend === 0
+                                    ? 'rotate(-90deg)'
+                                    : 'rotate(180deg)'
                                   }`,
-                                }
+                              }
                               : {}
                           }
                         />
@@ -433,12 +456,11 @@ export function TableList(props) {
                                 style={
                                   platform.showsTrand !== 2
                                     ? {
-                                        transform: `${
-                                          platform.showsTrand === 0
-                                            ? 'rotate(-90deg)'
-                                            : 'rotate(180deg)'
+                                      transform: `${platform.showsTrand === 0
+                                          ? 'rotate(-90deg)'
+                                          : 'rotate(180deg)'
                                         }`,
-                                      }
+                                    }
                                     : {}
                                 }
                               />

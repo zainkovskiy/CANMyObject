@@ -5,8 +5,8 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: path.resolve(__dirname, 'src', 'index.js'),
   output: {
-    path: path.resolve(__dirname, 'dist', 'v1.1.5'),
-    filename: 'bundle-v1.1.5.js',
+    path: path.resolve(__dirname, 'dist', 'v1.1.7'),
+    filename: 'bundle-v1.1.7.js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -48,7 +48,7 @@ module.exports = {
       filename: 'index.html',
     }),
     new miniCssExtractPlugin({
-      filename: 'main-v1.1.5.css',
+      filename: 'main-v1.1.7.css',
     }),
   ],
 };
