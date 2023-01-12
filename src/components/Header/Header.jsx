@@ -28,7 +28,7 @@ export function Header(props) {
       "userId": userId,
       viewedOfficeId: currentOffice.id
     }, { responseType: 'blob' });
-    if(res.status === 200 && res.statusText === "OK"){
+    if (res.status === 200 && res.statusText === "OK") {
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const name = res.headers['content-disposition'].split('filename=')[1];
       const link = document.createElement('a');
@@ -38,10 +38,32 @@ export function Header(props) {
       link.click();
     }
   }
+  const openAddObject = () => {
+    BX.SidePanel.Instance.open('https://crm.centralnoe.ru/CDB/object/card/add/?login=yes&action=new', {
+      animationDuration: 300,
+      width: 980,
+      events: {
+        onclose: () => {
+          getData({
+            "action": "get",
+            // "userId": "2198",
+            "userId": userId,
+            viewedOfficeId: currentOffice.id
+          });
+        },
+      },
+    });
+  }
 
   return (<div className='header'>
     <img className='header__logo' src="https://crm.centralnoe.ru/dealincom/assets/logo_can.jpg" alt="logo" />
     <div className="header__left">
+      <Button
+        variant="outlined"
+        onClick={openAddObject}
+      >
+        Добавить объект
+      </Button>
       <IconButton
         size="small"
         onClick={downloadExcel}
