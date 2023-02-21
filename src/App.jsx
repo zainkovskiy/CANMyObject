@@ -14,11 +14,10 @@ export function App() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [chartData, setChartData] = useState([]);
-
+  const userId = 2921;
   useEffect(() => {
     getData({
       action: 'get',
-      // userId: '2921',
       userId: userId,
     });
   }, []);
@@ -57,17 +56,17 @@ export function App() {
     }
   };
   const getSubordinated = () => {
-    if (data?.subordinated){
+    if (data?.subordinated) {
       return data.subordinated.sort(sortSubordinated)
     }
     return []
   }
 
-  const sortSubordinated = (a,b) => {
-    if (a.name < b.name){
+  const sortSubordinated = (a, b) => {
+    if (a.name < b.name) {
       return -1
     }
-    if (a.name > b.name){
+    if (a.name > b.name) {
       return 1
     }
     return 0

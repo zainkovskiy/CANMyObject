@@ -12,6 +12,8 @@ import Exel from 'svg/excel.svg';
 
 import './Header.scss';
 
+const userId = 2921;
+
 export function Header(props) {
   const { officeList, currentOfficeId, rights, getData } = props;
   const [currentOffice, setCurrentOffice] = useState('');
@@ -24,8 +26,7 @@ export function Header(props) {
     const res = await axios.post('https://hs-01.centralnoe.ru/Project-Selket-Main/Servers/Statistic/Operating.php', {
       action: 'get',
       actionEx: 'toExcel',
-      // "userId": "2198",
-      "userId": userId,
+      userId: userId,
       viewedOfficeId: currentOffice.id
     }, { responseType: 'blob' });
     if (res.status === 200 && res.statusText === "OK") {
@@ -46,7 +47,6 @@ export function Header(props) {
         onclose: () => {
           getData({
             "action": "get",
-            // "userId": "2198",
             "userId": userId,
             viewedOfficeId: currentOffice.id
           });
@@ -94,7 +94,6 @@ export function Header(props) {
           variant="contained"
           onClick={() => getData({
             "action": "get",
-            // "userId": "2198",
             "userId": userId,
             viewedOfficeId: currentOffice.id
           })}
